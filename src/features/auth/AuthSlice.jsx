@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import api from '../../Axios/Axios';
 
 
 
@@ -7,9 +7,13 @@ export let fetchdata=createAsyncThunk(
   "auth/fetchdata",
   async(Credential,{rejectWithValue})=>{
     try{
-     let response=await fetch("http://localhost:3333/user/login",{method:"POST",headers:{"Content-Type": "application/json"},body:JSON.stringify(Credential)})
-     let jsodata=await response.json();
-     if(!response.ok){
+      console.log(Credential);
+    //  let response=await fetch("http://localhost:3333/user/login",{method:"POST",headers:{"Content-Type": "application/json"},body:JSON.stringify(Credential),credentials:"include"})
+    let response=await api.post("/user/login",Credential)
+     console.log(response)
+     let jsodata=await response.data
+     console.log(jsodata)
+     if(!response.statusText){
       return rejectWithValue("invalid credientials")
      }
      localStorage.setItem("token",jsodata.data.token)

@@ -26,6 +26,7 @@ let onload=async(token)=>{
   body:JSON.stringify({token})})
   let jsodata=await response.json();
   console.log(jsodata)
+
   if(!jsodata || !jsodata.data){
     navigate('/login')
   }
@@ -33,10 +34,24 @@ let onload=async(token)=>{
     dispatch(setCredentials(jsodata.data))
     navigate('/dashbroad');
   }
+  if(jsodata.msg=="tokenexpired"){
+    let token=localStorage.getItem("token")
+    let response=await fetch("http://localhost:3333/user/refreshtoken",{
+      method:"GET",
+       headers: {
+          Authorization: `Bearer ${token}`
+        },
+      credentials:"include"
+    })
+    let jsodata=await response.json();
+    
+  }
   console.log(jsodata.data)
   
 }
 let myfunction = async () => {
+  console.log(email)
+  console.log(password)
   try {
     await dispatch(fetchdata({ email, password })).unwrap();
     navigate('/dashbroad');

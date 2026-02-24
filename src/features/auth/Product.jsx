@@ -8,7 +8,8 @@ export const fetchdata=createAsyncThunk(//it will start exicution and return the
     async()=>{
       let response=await fetch("http://localhost:3333/products");
       let jsodata=await response.json()
-      return jsodata
+      console.log(jsodata)
+      return jsodata.data
     }
 )
 
