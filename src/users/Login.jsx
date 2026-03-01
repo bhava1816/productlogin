@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchdata ,setCredentials} from '../features/auth/AuthSlice';
-
-
+import { useSelector } from "react-redux";
+import { LOGIN_REQUEST } from '../features/auth/Authtype';
  
 
 function Login() {
@@ -11,9 +11,19 @@ function Login() {
     let [email,setemail]=useState('');
     let [password,setpassword]=useState('')
     let navigate=useNavigate();
-
+    let user=useSelector((store)=>{
+     return store.auth.user
+    })
+    console.log(user);
+    useEffect(()=>{
+     if(user!=null){
+      navigate('/dashbroad');
+    }
+    
+    },[user])
     useEffect(()=>{
    let token=localStorage.getItem("token")
+   console.log(token)
     if(token!==null){
      onload(token)
     }
@@ -53,8 +63,9 @@ let myfunction = async () => {
   console.log(email)
   console.log(password)
   try {
-    await dispatch(fetchdata({ email, password })).unwrap();
-    navigate('/dashbroad');
+    // await dispatch(fetchdata({ email, password })).unwrap();
+    await dispatch({type:LOGIN_REQUEST,payload:{ email, password }})
+   
   } catch (err) {
    alert("invalid credentials");
   }

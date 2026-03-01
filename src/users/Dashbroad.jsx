@@ -8,9 +8,9 @@ function Dashboard() {
 
   const dispatch = useDispatch();
 
-  const firstName = useSelector((state) => state.auth.firstName);
-  const lastName = useSelector((state) => state.auth.lastName);
-  const token = useSelector((state) => state.auth.token);
+  const firstName = useSelector((state) => state.auth.user.firstName);
+  const lastName = useSelector((state) => state.auth.user.lastName);
+  const token = useSelector((state) => state.auth.user.token);
   const items = useSelector((state) => state.products.products);
   const loadig=useSelector((state)=>state.products.loading);
   let error =useSelector((state)=>state.products.error)
